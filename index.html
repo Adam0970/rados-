@@ -193,6 +193,8 @@ function answer(i){
 
 let q=questions[current]
 
+/* NAJKRAJŠÍ */
+
 if(q.type==="beauty"){
 
 if(q.a[i].includes("Ja")){
@@ -209,6 +211,8 @@ loadQuestion()
 
 return
 }
+
+/* ODMENA */
 
 if(q.type==="reward"){
 
@@ -233,6 +237,8 @@ return
 
 }
 
+/* ZLEPŠUJE DEŇ */
+
 if(q.type==="day"){
 
 if(q.a[i].includes("Moje zlatko")){
@@ -244,6 +250,11 @@ return
 
 document.getElementById("cry").style.display="block"
 document.getElementById("message").innerText="Určite? 😢"
+
+setTimeout(()=>{
+document.getElementById("cry").style.display="none"
+document.getElementById("message").innerText=""
+},2000)
 
 if(lastClick===i){
 repeatClicks++
@@ -262,12 +273,16 @@ return
 
 }
 
+/* PRINCEZNÁ */
+
 if(q.type==="princess"){
 
 document.getElementById("message").innerText="No vidíš mojušik ❤️"
 setTimeout(nextQuestion,1500)
 return
 }
+
+/* NAJROZTOMILEJŠÍ */
 
 if(q.type==="cute"){
 
@@ -321,8 +336,6 @@ if(time<=0){
 
 clearInterval(timer)
 
-score++
-
 document.getElementById("game").style.display="none"
 document.getElementById("finalScreen").style.display="flex"
 
@@ -349,10 +362,13 @@ heart.style.top="-30px"
 
 area.appendChild(heart)
 
+let fallSpeed=3+(30-time)*0.15
+if(time<=5) fallSpeed=7
+
 let fall=setInterval(()=>{
 
 let top=parseFloat(heart.style.top)
-heart.style.top=(top+3)+"px"
+heart.style.top=(top+fallSpeed)+"px"
 
 if(top>350){
 heart.remove()
