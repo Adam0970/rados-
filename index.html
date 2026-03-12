@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<title>Kvíz pre moje zlatko ❤️</title>
+
+<style>
+body{
+    font-family: Arial;
+    background: linear-gradient(135deg,#ff9a9e,#fad0c4);
+    text-align:center;
+    padding:20px;
+}
+
+.card{
+    background:white;
+    padding:25px;
+    border-radius:20px;
+    max-width:520px;
+    margin:auto;
+    box-shadow:0 10px 25px rgba(0,0,0,0.2);
+}
+
+button{
+    padding:12px 18px;
+    margin:6px;
+    border:none;
+    border-radius:12px;
+    background:#ff4b7d;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#ff2e66;
+}
+
+#game{
+    display:none;
+}
+
+#playArea{
+    width:320px;
+    height:320px;
+    background:white;
+    margin:auto;
+    border-radius:15px;
+    position:relative;
+    overflow:hidden;
+}
+
+.heart{
+    position:absolute;
+    font-size:30px;
+    cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card" id="quiz">
+<h2>Kvíz pre moje zlatko ❤️</h2>
+<p id="question"></p>
+<div id="answers"></div>
+<p id="message"></p>
+</div>
+
+<div class="card" id="game">
+<h2>Bonus hra pre moje zlatko ❤️</h2>
+<p>Chyť čo najviac srdiečok za 30 sekúnd!</p>
+<p>Skóre: <span id="score">0</span></p>
+<p>Čas: <span id="time">30</span></p>
+
+<div id="playArea"></div>
+
+<p id="finalMessage"></p>
+</div>
+
+<script>
+
+const questions = [
+{
+q:"Kto je najkrajšie zlatko na svete?",
+a:["Ty ❤️","Ty ❤️","Ty ❤️","Ty ❤️"],
+correct:0
+},
+{
+q:"Čo si zaslúži moje zlatko dnes?",
+a:["Objatie 🤗","Pusu 😘","Čokoládu 🍫","Všetko naraz ❤️"],
+correct:3
+},
+{
+q:"Kto robí môj deň lepším?",
+a:["Moje zlatko ❤️","Moje zlatko ❤️","Moje zlatko ❤️","Moje zlatko ❤️"],
+correct:1
+}
+];
+
+let current=0;
+
+function loadQuestion(){
+document.getElementById("message").innerText="";
+let q=questions[current];
+document.getElementById("question").innerText=q.q;
+
+let answersHTML="";
+q.a.forEach((ans,i)=>{
+answersHTML+=`<button onclick="answer(${i})">${ans}</button>`;
+});
+
+document.getElementById("answers").innerHTML=answersHTML;
+}
+
+function answer(i){
+
+current++;
+
+if(current<questions.length){
+loadQuestion();
+}else{
+
+document.getElementById("quiz").innerHTML=
+"<h2>Správne! 😄</h2><p>Teraz bonus hra pre moje zlatko ❤️</p><button onclick='startGame()'>Spustiť hru</button>";
+
+}
+
+}
+
+loadQuestion();
+
+
+let score=0;
+let time=30;
+let gameInterval;
+
+function startGame(){
+
+document.getElementById("quiz").style.display="none";
+document.getElementById("game").style.display="block";
+
+spawnHeart();
+
+gameInterval=setInterval(()=>{
+time--;
+document.getElementById("time").innerText=time;
+
+if(time<=0){
+clearInterval(gameInterval);
+document.getElementById("finalMessage").innerText="Koniec hry! Moje zlatko ulovilo "+score+" srdiečok ❤️";
+}
+
+},1000);
+
+}
+
+function spawnHeart(){
+
+const area=document.getElementById("playArea");
+
+let heart=document.createElement("div");
+heart.className="heart";
+heart.innerText="❤️";
+
+heart.style.left=Math.random()*280+"px";
+heart.style.top=Math.random()*280+"px";
+
+heart.onclick=function(){
+score++;
+document.getElementById("score").innerText=score;
+heart.remove();
+spawnHeart();
+};
+
+area.appendChild(heart);
+
+}
+
+</script>
+
+</body>
+</html>
